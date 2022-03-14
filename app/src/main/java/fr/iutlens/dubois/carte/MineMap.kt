@@ -34,6 +34,30 @@ class MineMap( override val sizeX: Int, override val sizeY: Int) : TileMap {
             }
         }
     }
+    fun addRed(color: Int) : Int {
+        return when(color) {
+            6 -> 8
+            7 -> 9
+            10 -> 11
+            else -> color
+        }
+    }
+    fun addGreen(color: Int) : Int {
+        return when(color) {
+            5 -> 8
+            7 -> 10
+            9 -> 11
+            else -> color
+        }
+    }
+    fun addBlue(color: Int) : Int {
+        return when(color) {
+            5 -> 9
+            6 -> 10
+            8 -> 11
+            else -> color
+        }
+    }
     fun generateMines() {
         while ((reds + greens + blues > 0)) {
             val tile_x = (0..sizeX - 1).random()
@@ -65,16 +89,16 @@ class MineMap( override val sizeX: Int, override val sizeY: Int) : TileMap {
                     for (i in neighbours) {
                         for (j in neighbours) {
                             if (validTile(tile_x+j, tile_y+i)) {
-                                var neighbour_color = 0
-                                if (i != j || i == 0) {
-                                     neighbour_color = tile_value + 3
-                                    if (demineurGrid[tile_y + i][tile_x + j] != 0) {
-                                        //when (demineurGrid[tile_y + i][tile_x + j]) {
-                                            //5 ->
-                                        //}
+                                if (i != 0 || j != 0) {
+                                    var neighbour_color = 0
+                                    when (demineurGrid[tile_y][tile_x]) {
+                                        5 -> neighbour_color = addRed(demineurGrid[tile_y + i][tile_x + j])
+                                        6 -> neighbour_color = addGreen(demineurGrid[tile_y + i][tile_x + j])
+                                        7 -> neighbour_color = addBlue(demineurGrid[tile_y + i][tile_x + j])
+                                        else -> neighbour_color = tile_value + 3
                                     }
+                                    demineurGrid[tile_y + i][tile_x + j] = neighbour_color
                                 }
-                                demineurGrid[tile_y + i][tile_x + j] = neighbour_color
                             }
                         }
                     }
