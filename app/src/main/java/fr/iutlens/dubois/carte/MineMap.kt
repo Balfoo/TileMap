@@ -8,7 +8,7 @@ class MineMap( override val sizeX: Int, override val sizeY: Int) : TileMap {
     var demineurGrid = Array(sizeY) { IntArray(sizeX) }
     var displayGrid = Array(sizeY) { IntArray(sizeX) }
     var tile_value = -1
-    var reds = 3
+    var reds = 7
     var greens = reds
     var blues = reds
     var placed_mines = -1
@@ -90,13 +90,13 @@ class MineMap( override val sizeX: Int, override val sizeY: Int) : TileMap {
                         for (j in neighbours) {
                             if (validTile(tile_x+j, tile_y+i)) {
                                 if (i != 0 || j != 0) {
-                                    var neighbour_color = 0
-                                    when (demineurGrid[tile_y][tile_x]) {
-                                        5 -> neighbour_color = addRed(demineurGrid[tile_y + i][tile_x + j])
-                                        6 -> neighbour_color = addGreen(demineurGrid[tile_y + i][tile_x + j])
-                                        7 -> neighbour_color = addBlue(demineurGrid[tile_y + i][tile_x + j])
-                                        else -> neighbour_color = tile_value + 3
-                                    }
+                                    var neighbour_color = tile_value + 3
+                                    if (demineurGrid[tile_y + i][tile_x + j] != 0) {
+                                    when (tile_value) {
+                                        2 -> neighbour_color = addRed(demineurGrid[tile_y + i][tile_x + j])
+                                        3 -> neighbour_color = addGreen(demineurGrid[tile_y + i][tile_x + j])
+                                        4 -> neighbour_color = addBlue(demineurGrid[tile_y + i][tile_x + j])
+                                    }}
                                     demineurGrid[tile_y + i][tile_x + j] = neighbour_color
                                 }
                             }
